@@ -37,6 +37,7 @@ class ofLayer {
         vector<ofPoint> corners;
 
         bool showHud;
+        bool reposition;
         int selectedCorner;
 };
 

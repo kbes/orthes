@@ -7,6 +7,8 @@ void ofApp::setup() {
     ofSetFrameRate(60);
     ofSetVerticalSync(true);
     ofEnableSmoothing();
+    
+    showHud = false;
 
     layers.push_back(new ofLayer("sample.mov"));
 }
@@ -31,6 +33,11 @@ void ofApp::draw() {
     for (int i=0; i<layers.size(); i++) {
         layers[i]->pourFbo();
     }
+    
+    if (showHud) {
+        ofSetColor(0, 235);
+        ofRect(0, 0, 400, ofGetHeight());
+    }
 }
 
 void ofApp::exit() {
@@ -40,13 +47,17 @@ void ofApp::exit() {
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
     switch (key) {
+        case 'i':
+            showHud = !showHud;
+            break;
         case '+':
 //            corners.push_back(ofPoint(ofGetWidth()/2, ofGetHeight()/2));
+            layers.push_back(new ofLayer("sample2.mov"));
             break;
         case '-':
-//            if (corners.size() > 3) {
-//                corners.erase(corners.end());
-//            }
+            if (layers.size() > 1) {
+                layers.erase(layers.end());
+            }
             break;
         default:
             break;
