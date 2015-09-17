@@ -148,6 +148,21 @@ void ofLayer::mousePressed(int x, int y) {
             nearest = dist;
         }
     }
+    
+    // Check if click is inside the polygon and outside the handles
+    if (selectedCorner == -1) {
+        bool inside = false;
+        for (int i=0, j=corners.size(); i<corners.size(); j = i++) {
+            if ((cvDst[i].y > y) != (cvDst[j].y > y) &&
+                (x < (cvDst[j].x - cvDst[i].x) * (y - cvDst[i].y) / (cvDst[j].y-cvDst[i].y) + cvDst[i].x)) {
+                inside = !inside;
+            }
+        }
+
+    if (inside) {
+            fprintf(stderr, "inside");
+        }
+    }
 }
 
 void ofLayer::releaseCorner() {

@@ -27,13 +27,7 @@ class ofApp : public ofBaseApp {
         void gotMessage(ofMessage msg);
     
     private:
-        ofLayer* layer;
-
-        GLfloat warpMatrix[16];
-        CvPoint2D32f cvSrc[4];
-        CvPoint2D32f cvDst[4];
-    
-        vector<ofPoint> corners;
+        vector<ofLayer*> layers;
     
         bool showHud;
         int selectedCorner;
