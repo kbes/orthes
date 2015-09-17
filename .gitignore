@@ -13,7 +13,7 @@
 *.xcuserdata
 
 # Video files
-bin/data
+bin/data/
 
 # Build products
 build/
