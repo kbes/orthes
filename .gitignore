@@ -10,7 +10,10 @@
 *.pbxuser
 *.xcworkspace
 *.xcuserstate
-xcuserdata
+*.xcuserdata
+
+# Video files
+bin/data/
 
 # Build products
 build/
