@@ -47,6 +47,8 @@ void ofLayer::draw() {
     }
     ofEndShape(true);
     
+    ofSetColor(255);
+    
     // Spill video content into buffer
     fbo.begin();
         video->draw(0, 0, ofGetWidth(), ofGetHeight());
