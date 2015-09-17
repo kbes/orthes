@@ -32,8 +32,10 @@ void ofApp::setup() {
 //--------------------------------------------------------------
 void ofApp::update()
 {
-    if (ofGetFrameNum() > 200) {
-        layer->changeVideo("movie.mov");
+    if (ofGetFrameNum() % 240 == 0) {
+        layer->changeVideo("sample2.mov");
+    } else if (ofGetFrameNum() % 120 == 0) {
+        layer->changeVideo("sample.mov");
     }
 
     layer->update();
