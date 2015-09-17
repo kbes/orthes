@@ -15,7 +15,6 @@ ofLayer::ofLayer(string fileName) {
     video->play();
     
     selectedCorner = -1;
-    reposition = false;
     
     // Locations of corners handles
     corners.push_back(ofPoint(0.0, 0.0));
