@@ -12,6 +12,9 @@
 *.xcuserstate
 *.xcuserdata
 
+# Video files
+bin/data
+
 # Build products
 build/
 *.o
