@@ -23,7 +23,7 @@ class ofLayer {
         void mousePressed(int x, int y);
         void mouseDragged(int x, int y);
         void releaseCorner();
-        ofLayer(string fileName);
+        ofLayer(int number, string fileName);
         ofxToggle* getShowToggle();
     
     private:

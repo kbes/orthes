@@ -8,7 +8,7 @@
 
 #include "ofLayer.h"
 
-ofLayer::ofLayer(string fileName) {
+ofLayer::ofLayer(int number, string fileName) {
   	ofSetVerticalSync(true);
     fbo.allocate(ofGetWidth(), ofGetHeight());
     video = new ofQTKitPlayer();
@@ -32,8 +32,9 @@ ofLayer::ofLayer(string fileName) {
     cvSrc[2].y = ofGetHeight();
     cvSrc[3].x = 0.0;
     cvSrc[3].y = ofGetHeight();
-    
-    show.setup("show layer 1", true);
+
+    string showToggleName = "show video";
+    show.setup(showToggleName, true);
 }
 
 void ofLayer::update() {

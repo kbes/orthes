@@ -10,7 +10,7 @@ void ofApp::setup() {
     
     showHud = false;
 
-    layers.push_back(new ofLayer("sample.mov"));
+    layers.push_back(new ofLayer(0, "sample.mov"));
     
     // The hooman interface
     gui.setup();
@@ -54,7 +54,8 @@ void ofApp::keyPressed(int key) {
             showHud = !showHud;
             break;
         case '+':
-            layers.push_back(new ofLayer("sample2.mov"));
+            layers.push_back(new ofLayer(layers.size(), "sample2.mov"));
+            gui.add(layers[layers.size()-1]->getShowToggle());
             break;
         case '-':
             if (layers.size() > 1) {
