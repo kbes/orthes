@@ -2,6 +2,9 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
+    ofSetVerticalSync(true);
+    ofHideCursor();
+
     fprintf(stderr, "αρχίζοντας\n");
     ofBackground(0);
     ofSetFrameRate(60);
@@ -14,7 +17,9 @@ void ofApp::setup() {
     
     // The hooman interface
     gui.setup();
-    gui.add(layers[0]->getShowToggle());
+    gui.add(layers[0]->getLabel());
+    gui.add(layers[0]->getShowVideo());
+    gui.add(layers[0]->getShowWarp());
 }
 
 //--------------------------------------------------------------
@@ -55,7 +60,9 @@ void ofApp::keyPressed(int key) {
             break;
         case '+':
             layers.push_back(new ofLayer(layers.size(), "sample2.mov"));
-            gui.add(layers[layers.size()-1]->getShowToggle());
+            gui.add(layers[layers.size()-1]->getLabel());
+            gui.add(layers[layers.size()-1]->getShowVideo());
+            gui.add(layers[layers.size()-1]->getShowWarp());
             break;
         case '-':
             if (layers.size() > 1) {
@@ -75,7 +82,7 @@ void ofApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-
+    ofShowCursor();
 }
 
 //--------------------------------------------------------------

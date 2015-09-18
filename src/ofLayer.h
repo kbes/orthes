@@ -24,8 +24,10 @@ class ofLayer {
         void mouseDragged(int x, int y);
         void releaseCorner();
         ofLayer(int number, string fileName);
-        ofxToggle* getShowToggle();
-    
+        ofxLabel* getLabel();
+        ofxToggle* getShowVideo();
+        ofxToggle* getShowWarp();
+
     private:
         void warp();
     
@@ -39,8 +41,10 @@ class ofLayer {
         vector<ofPoint> corners;
 
         int selectedCorner;
-    
-        ofxToggle show;
+
+        ofxLabel label;
+        ofxToggle showVideo;
+        ofxToggle showWarp;
 };
 
 #endif /* defined(__quadWarp__ofLayer__) */

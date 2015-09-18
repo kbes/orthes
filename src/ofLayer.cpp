@@ -9,7 +9,6 @@
 #include "ofLayer.h"
 
 ofLayer::ofLayer(int number, string fileName) {
-  	ofSetVerticalSync(true);
     fbo.allocate(ofGetWidth(), ofGetHeight());
     video = new ofQTKitPlayer();
     video->loadMovie(fileName, OF_QTKIT_DECODE_TEXTURE_ONLY);
@@ -33,8 +32,9 @@ ofLayer::ofLayer(int number, string fileName) {
     cvSrc[3].x = 0.0;
     cvSrc[3].y = ofGetHeight();
 
-    string showToggleName = "show video";
-    show.setup(showToggleName, true);
+    label.setup("Layer", ofToString(number));
+    showVideo.setup("show video", true);
+    showWarp.setup("show warp", true);
 }
 
 void ofLayer::update() {
@@ -43,13 +43,16 @@ void ofLayer::update() {
 }
 
 void ofLayer::draw() {
+
     // Draw distortable image frame
-    ofSetColor(255, 0, 0, 100);
-    ofBeginShape();
-    for (int i=0; i<corners.size(); i++) {
-        ofVertex(cvDst[i].x, cvDst[i].y);
+    if (showWarp) {
+        ofSetColor(255, 0, 0, 100);
+        ofBeginShape();
+        for (int i=0; i<corners.size(); i++) {
+            ofVertex(cvDst[i].x, cvDst[i].y);
+        }
+        ofEndShape(true);
     }
-    ofEndShape(true);
     
     ofSetColor(255);
     
@@ -58,19 +61,21 @@ void ofLayer::draw() {
         video->draw(0, 0, ofGetWidth(), ofGetHeight());
     fbo.end();
     
-    // Draw corner handles
-    for (int i=0; i<corners.size(); i++) {
-        ofSetColor(255);
-        if (i == selectedCorner) {
-            ofSetColor(0, 255, 255);
+    if (showWarp) {
+        // Draw corner handles
+        for (int i=0; i<corners.size(); i++) {
+            ofSetColor(255);
+            if (i == selectedCorner) {
+                ofSetColor(0, 255, 255);
+            }
+            ofEllipse(cvDst[i].x, cvDst[i].y, 15, 15);
         }
-        ofEllipse(cvDst[i].x, cvDst[i].y, 15, 15);
     }
 }
 
 // Draw contents of buffer to screen
 void ofLayer::pourFbo() {
-    if (show) {
+    if (showVideo) {
     ofPushMatrix();
             // Warp the matrix!
             glMultMatrixf(warpMatrix);
@@ -138,35 +143,37 @@ void ofLayer::mouseDragged(int x, int y) {
 
 // Select corner handles
 void ofLayer::mousePressed(int x, int y) {
-    
-    // Equals to 5% screen size
-    float nearest = 0.05;
 
-    selectedCorner = -1;
+    if (showWarp) {
+        // Equals to 5% screen size
+        float nearest = 0.05;
+
+        selectedCorner = -1;
     
-    for (int i=0; i<corners.size(); i++) {
-        float distX = corners[i].x - (float) x/ofGetWidth();
-        float distY = corners[i].y - (float) y/ofGetHeight();
-        float dist = sqrt(distX*distX + distY*distY);
+        for (int i=0; i<corners.size(); i++) {
+            float distX = corners[i].x - (float) x/ofGetWidth();
+            float distY = corners[i].y - (float) y/ofGetHeight();
+            float dist = sqrt(distX*distX + distY*distY);
         
-        if(dist < nearest && dist < 0.05){
-            selectedCorner = i;
-            nearest = dist;
-        }
-    }
-    
-    // Check if click is inside the polygon and outside the handles
-    if (selectedCorner == -1) {
-        bool inside = false;
-        for (int i=0, j=corners.size(); i<corners.size(); j = i++) {
-            if ((cvDst[i].y > y) != (cvDst[j].y > y) &&
-                (x < (cvDst[j].x - cvDst[i].x) * (y - cvDst[i].y) / (cvDst[j].y-cvDst[i].y) + cvDst[i].x)) {
-                inside = !inside;
+            if(dist < nearest && dist < 0.05){
+                selectedCorner = i;
+                nearest = dist;
             }
         }
+    
+        // Check if click is inside the polygon and outside the handles
+        if (selectedCorner == -1) {
+            bool inside = false;
+            for (int i=0, j=corners.size(); i<corners.size(); j = i++) {
+                if ((cvDst[i].y > y) != (cvDst[j].y > y) &&
+                    (x < (cvDst[j].x - cvDst[i].x) * (y - cvDst[i].y) / (cvDst[j].y-cvDst[i].y) + cvDst[i].x)) {
+                    inside = !inside;
+                }
+            }
 
-    if (inside) {
-            fprintf(stderr, "inside");
+            if (inside) {
+                fprintf(stderr, "inside");
+            }
         }
     }
 }
@@ -175,6 +182,14 @@ void ofLayer::releaseCorner() {
     selectedCorner = -1;
 }
 
-ofxToggle* ofLayer::getShowToggle() {
-    return &show;
+ofxToggle* ofLayer::getShowVideo() {
+    return &showVideo;
+}
+
+ofxToggle* ofLayer::getShowWarp() {
+    return &showWarp;
+}
+
+ofxLabel* ofLayer::getLabel() {
+    return &label;
 }
