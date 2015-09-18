@@ -27,24 +27,26 @@ class ofLayer {
         ofxLabel* getLabel();
         ofxToggle* getShowVideo();
         ofxToggle* getShowWarp();
+        ofxToggle* getShowMask();
 
     private:
         void warp();
     
         ofFbo fbo;
         ofQTKitPlayer* video;
+        vector<ofPoint> corners;
+        ofImage* mask;
     
         GLfloat warpMatrix[16];
         CvPoint2D32f cvSrc[4];
         CvPoint2D32f cvDst[4];
-
-        vector<ofPoint> corners;
 
         int selectedCorner;
 
         ofxLabel label;
         ofxToggle showVideo;
         ofxToggle showWarp;
+        ofxToggle showMask;
 };
 
 #endif /* defined(__quadWarp__ofLayer__) */

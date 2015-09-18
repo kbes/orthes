@@ -10,9 +10,13 @@
 
 ofLayer::ofLayer(int number, string fileName) {
     fbo.allocate(ofGetWidth(), ofGetHeight());
+    
     video = new ofQTKitPlayer();
     video->loadMovie(fileName, OF_QTKIT_DECODE_TEXTURE_ONLY);
     video->play();
+    
+    mask = new ofImage();
+    mask->loadImage("mask1.png");
     
     selectedCorner = -1;
     
@@ -33,8 +37,9 @@ ofLayer::ofLayer(int number, string fileName) {
     cvSrc[3].y = ofGetHeight();
 
     label.setup("Layer", ofToString(number));
-    showVideo.setup("show video", true);
-    showWarp.setup("show warp", true);
+    showVideo.setup("video", true);
+    showWarp.setup("warp", true);
+    showMask.setup("mask", true);
 }
 
 void ofLayer::update() {
@@ -54,12 +59,18 @@ void ofLayer::draw() {
         ofEndShape(true);
     }
     
-    ofSetColor(255);
-    
-    // Spill video content into buffer
-    fbo.begin();
-        video->draw(0, 0, ofGetWidth(), ofGetHeight());
-    fbo.end();
+
+
+        // Spill video content into buffer
+        ofSetColor(255);
+        fbo.begin();
+        if (showVideo) {
+            video->draw(0, 0, ofGetWidth(), ofGetHeight());
+        }
+        if (showMask) {
+            mask->draw(0, 0);
+        }
+        fbo.end();
     
     if (showWarp) {
         // Draw corner handles
@@ -182,6 +193,10 @@ void ofLayer::releaseCorner() {
     selectedCorner = -1;
 }
 
+ofxLabel* ofLayer::getLabel() {
+    return &label;
+}
+
 ofxToggle* ofLayer::getShowVideo() {
     return &showVideo;
 }
@@ -190,6 +205,6 @@ ofxToggle* ofLayer::getShowWarp() {
     return &showWarp;
 }
 
-ofxLabel* ofLayer::getLabel() {
-    return &label;
+ofxToggle* ofLayer::getShowMask() {
+    return &showMask;
 }

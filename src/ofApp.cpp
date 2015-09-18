@@ -2,16 +2,12 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-    ofSetVerticalSync(true);
-    ofHideCursor();
-
     fprintf(stderr, "αρχίζοντας\n");
     ofBackground(0);
     ofSetFrameRate(60);
     ofSetVerticalSync(true);
     ofEnableSmoothing();
-    
-    showHud = false;
+    ofHideCursor();
 
     layers.push_back(new ofLayer(0, "sample.mov"));
     
@@ -20,6 +16,21 @@ void ofApp::setup() {
     gui.add(layers[0]->getLabel());
     gui.add(layers[0]->getShowVideo());
     gui.add(layers[0]->getShowWarp());
+    gui.add(layers[0]->getShowMask());
+    
+    showHud = false;
+    
+    videoFolder = new ofDirectory("/videos");
+    videoFolder->listDir();
+    
+    if (videoFolder->isDirectory()) {
+        fprintf(stderr, "path\n");
+    }
+    
+    for(int i = 0; i < videoFolder->numFiles(); i++){
+        ofLogNotice(videoFolder->getPath(i));
+        fprintf(stderr, "path");
+    }
 }
 
 //--------------------------------------------------------------
@@ -63,6 +74,7 @@ void ofApp::keyPressed(int key) {
             gui.add(layers[layers.size()-1]->getLabel());
             gui.add(layers[layers.size()-1]->getShowVideo());
             gui.add(layers[layers.size()-1]->getShowWarp());
+            gui.add(layers[layers.size()-1]->getShowMask());
             break;
         case '-':
             if (layers.size() > 1) {

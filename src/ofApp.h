@@ -34,4 +34,5 @@ class ofApp : public ofBaseApp {
         int selectedCorner;
     
         ofxPanel gui;
+        ofDirectory* videoFolder;
 };
