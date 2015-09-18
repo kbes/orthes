@@ -16,7 +16,7 @@ ofLayer::ofLayer(int number, string fileName) {
     video->play();
     
     mask = new ofImage();
-    mask->loadImage("mask1.png");
+    mask->loadImage("masks/mask1.png");
     
     selectedCorner = -1;
     
@@ -61,16 +61,17 @@ void ofLayer::draw() {
     
 
 
-        // Spill video content into buffer
-        ofSetColor(255);
-        fbo.begin();
+    // Spill video content into buffer
+    ofSetColor(255);
+    fbo.begin();
+        ofClear(0);
         if (showVideo) {
             video->draw(0, 0, ofGetWidth(), ofGetHeight());
         }
         if (showMask) {
             mask->draw(0, 0);
         }
-        fbo.end();
+    fbo.end();
     
     if (showWarp) {
         // Draw corner handles
@@ -86,8 +87,8 @@ void ofLayer::draw() {
 
 // Draw contents of buffer to screen
 void ofLayer::pourFbo() {
-    if (showVideo) {
-    ofPushMatrix();
+    if (showVideo || showMask) {
+        ofPushMatrix();
             // Warp the matrix!
             glMultMatrixf(warpMatrix);
             ofSetColor(255);
