@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxOpenCv.h"
 #include "ofLayer.h"
+#include "ofxGui.h"
 
 class ofLayer;
 
@@ -31,4 +32,6 @@ class ofApp : public ofBaseApp {
     
         bool showHud;
         int selectedCorner;
+    
+        ofxPanel gui;
 };

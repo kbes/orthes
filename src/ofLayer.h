@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "ofApp.h"
+#include "ofxGui.h"
 
 class ofLayer {
     
@@ -23,6 +24,7 @@ class ofLayer {
         void mouseDragged(int x, int y);
         void releaseCorner();
         ofLayer(string fileName);
+        ofxToggle* getShowToggle();
     
     private:
         void warp();
@@ -36,8 +38,9 @@ class ofLayer {
 
         vector<ofPoint> corners;
 
-        bool showHud;
         int selectedCorner;
+    
+        ofxToggle show;
 };
 
 #endif /* defined(__quadWarp__ofLayer__) */

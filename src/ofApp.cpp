@@ -11,6 +11,10 @@ void ofApp::setup() {
     showHud = false;
 
     layers.push_back(new ofLayer("sample.mov"));
+    
+    // The hooman interface
+    gui.setup();
+    gui.add(layers[0]->getShowToggle());
 }
 
 //--------------------------------------------------------------
@@ -35,8 +39,7 @@ void ofApp::draw() {
     }
     
     if (showHud) {
-        ofSetColor(0, 235);
-        ofRect(0, 0, 400, ofGetHeight());
+        gui.draw();
     }
 }
 
@@ -51,11 +54,11 @@ void ofApp::keyPressed(int key) {
             showHud = !showHud;
             break;
         case '+':
-//            corners.push_back(ofPoint(ofGetWidth()/2, ofGetHeight()/2));
             layers.push_back(new ofLayer("sample2.mov"));
             break;
         case '-':
             if (layers.size() > 1) {
+                delete layers[layers.size()];
                 layers.erase(layers.end());
             }
             break;

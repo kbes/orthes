@@ -9,6 +9,7 @@
 #include "ofLayer.h"
 
 ofLayer::ofLayer(string fileName) {
+  	ofSetVerticalSync(true);
     fbo.allocate(ofGetWidth(), ofGetHeight());
     video = new ofQTKitPlayer();
     video->loadMovie(fileName, OF_QTKIT_DECODE_TEXTURE_ONLY);
@@ -31,6 +32,8 @@ ofLayer::ofLayer(string fileName) {
     cvSrc[2].y = ofGetHeight();
     cvSrc[3].x = 0.0;
     cvSrc[3].y = ofGetHeight();
+    
+    show.setup("show layer 1", true);
 }
 
 void ofLayer::update() {
@@ -66,12 +69,14 @@ void ofLayer::draw() {
 
 // Draw contents of buffer to screen
 void ofLayer::pourFbo() {
+    if (show) {
     ofPushMatrix();
-        // Warp the matrix!
-        glMultMatrixf(warpMatrix);
-        ofSetColor(255);
-        fbo.draw(0, 0);
-    ofPopMatrix();
+            // Warp the matrix!
+            glMultMatrixf(warpMatrix);
+            ofSetColor(255);
+            fbo.draw(0, 0);
+        ofPopMatrix();
+    }
 }
 
 // Switch video file
@@ -167,4 +172,8 @@ void ofLayer::mousePressed(int x, int y) {
 
 void ofLayer::releaseCorner() {
     selectedCorner = -1;
+}
+
+ofxToggle* ofLayer::getShowToggle() {
+    return &show;
 }
