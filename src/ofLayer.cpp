@@ -16,7 +16,7 @@ ofLayer::ofLayer(int number, string fileName) {
     video->play();
     
     mask = new ofImage();
-    mask->loadImage("masks/mask1.png");
+    mask->loadImage("masks/mask1a.png");
     
     selectedCorner = -1;
     
@@ -58,19 +58,21 @@ void ofLayer::draw() {
         }
         ofEndShape(true);
     }
-    
-
 
     // Spill video content into buffer
     ofSetColor(255);
     fbo.begin();
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_ALPHA);
         ofClear(0);
-        if (showVideo) {
-            video->draw(0, 0, ofGetWidth(), ofGetHeight());
-        }
         if (showMask) {
             mask->draw(0, 0);
         }
+        glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_ALPHA);
+        if (showVideo) {
+            video->draw(0, 0, ofGetWidth(), ofGetHeight());
+        }
+        glDisable(GL_BLEND);
     fbo.end();
     
     if (showWarp) {
@@ -170,21 +172,6 @@ void ofLayer::mousePressed(int x, int y) {
             if(dist < nearest && dist < 0.05){
                 selectedCorner = i;
                 nearest = dist;
-            }
-        }
-    
-        // Check if click is inside the polygon and outside the handles
-        if (selectedCorner == -1) {
-            bool inside = false;
-            for (int i=0, j=corners.size(); i<corners.size(); j = i++) {
-                if ((cvDst[i].y > y) != (cvDst[j].y > y) &&
-                    (x < (cvDst[j].x - cvDst[i].x) * (y - cvDst[i].y) / (cvDst[j].y-cvDst[i].y) + cvDst[i].x)) {
-                    inside = !inside;
-                }
-            }
-
-            if (inside) {
-                fprintf(stderr, "inside");
             }
         }
     }

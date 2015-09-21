@@ -28,6 +28,9 @@ class ofApp : public ofBaseApp {
         void gotMessage(ofMessage msg);
     
     private:
+        ofShader shader;
+        ofPlanePrimitive plane;
+    
         vector<ofLayer*> layers;
     
         bool showHud;

@@ -9,6 +9,8 @@ void ofApp::setup() {
     ofEnableSmoothing();
     ofHideCursor();
 
+    shader.load("shaders/shader.vert", "shaders/shader.frag");
+
     layers.push_back(new ofLayer(0, "sample.mov"));
     
     // The hooman interface
@@ -48,6 +50,7 @@ void ofApp::draw() {
     for (int i=0; i<layers.size(); i++) {
         layers[i]->draw();
     }
+    
     
     // Pour out buffer
     for (int i=0; i<layers.size(); i++) {
