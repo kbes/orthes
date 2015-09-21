@@ -1,11 +1,3 @@
-//
-//  ofLayer.h
-//  quadWarp
-//
-//  Created by Christian Geick on 16.09.15.
-//
-//
-
 #ifndef __quadWarp__ofLayer__
 #define __quadWarp__ofLayer__
 
@@ -49,4 +41,4 @@ class ofLayer {
         ofxToggle showMask;
 };
 
-#endif /* defined(__quadWarp__ofLayer__) */
+#endif

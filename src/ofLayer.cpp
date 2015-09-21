@@ -1,11 +1,3 @@
-//
-//  ofLayer.cpp
-//  quadWarp
-//
-//  Created by Christian Geick on 16.09.15.
-//
-//
-
 #include "ofLayer.h"
 
 ofLayer::ofLayer(int number, string fileName) {

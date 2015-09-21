@@ -4,6 +4,11 @@
 #include "ofxOpenCv.h"
 #include "ofLayer.h"
 #include "ofxGui.h"
+#include "ofxOsc.h"
+
+#define RECEIVEPORT 23585
+#define SENDPORT 85523
+#define HOST "192.168.0.85" //remote IP
 
 class ofLayer;
 
@@ -28,9 +33,6 @@ class ofApp : public ofBaseApp {
         void gotMessage(ofMessage msg);
     
     private:
-        ofShader shader;
-        ofPlanePrimitive plane;
-    
         vector<ofLayer*> layers;
     
         bool showHud;
@@ -38,4 +40,9 @@ class ofApp : public ofBaseApp {
     
         ofxPanel gui;
         ofDirectory* videoFolder;
+    
+        ofxOscReceiver oscReceiver;
+        ofxOscSender oscSender;
+        float oscX = 0.0;
+        float oscY = 0.0;
 };

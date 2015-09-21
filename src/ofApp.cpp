@@ -8,8 +8,9 @@ void ofApp::setup() {
     ofSetVerticalSync(true);
     ofEnableSmoothing();
     ofHideCursor();
-
-    shader.load("shaders/shader.vert", "shaders/shader.frag");
+    
+    oscReceiver.setup(RECEIVEPORT);
+    oscSender.setup(SENDPORT, HOST);
 
     layers.push_back(new ofLayer(0, "sample.mov"));
     
@@ -38,6 +39,17 @@ void ofApp::setup() {
 //--------------------------------------------------------------
 void ofApp::update()
 {
+    while(oscReceiver.hasWaitingMessages()) {
+        ofxOscMessage message;
+        oscReceiver.getNextMessage(&message);
+        
+        if (message.getAddress() == "/vertical/x") {
+            oscY = message.getArgAsFloat(0);
+        } else {
+            oscX = message.getArgAsFloat(0);
+        }
+    }
+    
     for (int i=0; i<layers.size(); i++) {
         layers[i]->update();
     }
